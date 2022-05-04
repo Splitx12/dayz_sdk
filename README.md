@@ -1,1 +1,2 @@
-# dayz_sdk
+dayz internal. by AM*.
+

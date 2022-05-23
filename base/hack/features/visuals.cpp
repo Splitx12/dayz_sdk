@@ -127,7 +127,7 @@ void visuals::draw_entity_esp( )
 			auto top = sPforehead.y;
 		// name esp
 		{
-			auto name = entity->get_entity_type( )->get_type( )->get_clean_name( )->get_str( );
+			auto name = entity->get_entity_type( )->get_clean_name( )->get_str( );
 		
 			auto sz = g_renderer.smallest_pixel->CalcTextSizeA( 10.f, FLT_MAX, 0.0f, name.c_str( ) );
 		
@@ -189,7 +189,7 @@ void visuals::draw_entity_esp( )
 			auto top = screen_head_pos.y;
 		// name esp
 		{
-			auto name = entity->get_entity_type( )->get_type( )->get_clean_name( )->get_str( );
+			auto name = entity->get_entity_type( )->get_clean_name( )->get_str( );
 		
 			auto sz = g_renderer.smallest_pixel->CalcTextSizeA( 10.f, FLT_MAX, 0.0f, name.c_str( ) );
 		

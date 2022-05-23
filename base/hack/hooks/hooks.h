@@ -22,7 +22,8 @@ namespace hooks
 	auto hk_resize( IDXGISwapChain* swapChain, UINT bufferCount, UINT width, UINT height, DXGI_FORMAT newFormat, UINT swapChainFlags )->HRESULT;
 
 	static bool show_menu = true;
-	inline bool m_unloading;
+	static HWND window = nullptr;
+
 	namespace o {
 		inline void* present;
 		inline void* resize;

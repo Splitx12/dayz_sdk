@@ -18,10 +18,6 @@ public:
 	{
 		return *reinterpret_cast< arma_string** >( ( uintptr_t )this + 0x00A0 );
 	}
-	arma_string* get_clean_name( )
-	{
-		return *reinterpret_cast< arma_string** >( ( uintptr_t )this + 0x04E0 );
-	}
 };
 
 class entity_type
@@ -33,6 +29,11 @@ public:
 			return 0x0;
 
 		return *reinterpret_cast< entity_ai_type** >( this + 0X90 );
+	}
+
+	arma_string* get_clean_name( )
+	{
+		return *reinterpret_cast< arma_string** >( ( uintptr_t )this + 0x04E0 );
 	}
 };
 

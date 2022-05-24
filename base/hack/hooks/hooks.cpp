@@ -38,14 +38,16 @@ void hooks::attach( ) {
 }
 
 void hooks::detach( ) {
-	m_unloading = true;
-
-	// wait until we finish restoring stuff in hooks
-	std::this_thread::sleep_for( std::chrono::milliseconds( 100 ) );
-
 	// disable and remove our hooks 
 	MH_DisableHook( MH_ALL_HOOKS );
 	MH_RemoveHook( MH_ALL_HOOKS );
-	
 	MH_Uninitialize( );
+
+	// restore the original game wnd_proc
+	SetWindowLongPtr( hooks::window, GWLP_WNDPROC, reinterpret_cast< LONG_PTR >( hooks::o::wnd_proc ));
+
+	// de-initialize ImGui instance
+	ImGui::DestroyContext( );
+	ImGui_ImplWin32_Shutdown( );
+	ImGui_ImplDX11_Shutdown( );
 }

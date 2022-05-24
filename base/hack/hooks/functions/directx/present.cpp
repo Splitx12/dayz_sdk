@@ -83,9 +83,6 @@ void end_scene( ImGuiWindow& window ) {
 
 LRESULT __stdcall hk_wnd_proc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam ) {
 
-	if( hooks::m_unloading )
-		return CallWindowProcW( hooks::o::wnd_proc, hWnd, msg, wParam, lParam );
-
 	if( msg == WM_KEYUP && ( wParam == VK_HOME ) ) {
 		hooks::show_menu = !hooks::show_menu;
 		ImGui::GetIO( ).MouseDrawCursor = hooks::show_menu;
@@ -98,9 +95,6 @@ LRESULT __stdcall hk_wnd_proc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 HRESULT hooks::hk_present( IDXGISwapChain* swapChain, UINT syncInterval, UINT flags ) {
 
-	if( hooks::m_unloading ) 
-		return reinterpret_cast< decltype( &hk_present ) >( hooks::o::present )( swapChain, syncInterval, flags );
-	
 	if( !device )
 	{
 		swapChain->GetDevice( __uuidof( device ), reinterpret_cast< PVOID* >( &device ) );
@@ -126,10 +120,10 @@ HRESULT hooks::hk_present( IDXGISwapChain* swapChain, UINT syncInterval, UINT fl
 		icons_config.MergeMode = true;
 		icons_config.PixelSnapH = true;
 		
-		auto hwnd = FindWindow( _( "DayZ" ), nullptr );
-		hooks::o::wnd_proc = reinterpret_cast< WNDPROC >( SetWindowLongPtr( hwnd, GWLP_WNDPROC, reinterpret_cast< LONG_PTR >( hk_wnd_proc ) ) );
+		hooks::window = FindWindow( _( "DayZ" ), nullptr );
+		hooks::o::wnd_proc = reinterpret_cast< WNDPROC >( SetWindowLongPtr( hooks::window, GWLP_WNDPROC, reinterpret_cast< LONG_PTR >( hk_wnd_proc ) ) );
 
-		ImGui_ImplWin32_Init( hwnd );
+		ImGui_ImplWin32_Init( hooks::window );
 		ImGui_ImplDX11_Init( device, immediate_context );
 		//ImGui_ImplDX11_CreateDeviceObjects( );
 	}
